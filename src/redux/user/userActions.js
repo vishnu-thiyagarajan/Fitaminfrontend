@@ -18,7 +18,7 @@ export const LoginUser = (email,password) => {
   return (dispatch) => {
     dispatch(loginUserRequest())
     axios
-      .post(process.env.REACT_APP_DBURL + '/login', {email, password})
+      .post('/login', {email, password})
       .then(response => {
         const user = response.data
         dispatch(loginUserSuccess(user))
@@ -33,11 +33,11 @@ export const LoginUser = (email,password) => {
   }
 }
 
-export const RegisterUser = (name,email,password) => {
+export const RegisterUser = (name,email,password,role) => {
   return (dispatch) => {
     dispatch(registerUserRequest())
     axios
-      .post(process.env.REACT_APP_DBURL + '/register', {name, email, password})
+      .post('/register', {name, email, password, role})
       .then(response => {
         const user = response.data
         dispatch(registerUserSuccess(user))

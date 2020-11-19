@@ -51,10 +51,9 @@ function SignIn() {
   const isAuthenticated = useSelector(state => state.user.isAuthenticated)
   const error = useSelector(state => state.user.error)
   const [open, setOpen] = useState(false);
-  // if (error) setOpen(true);
   const dispatch = useDispatch()
   const login = (email,password) => dispatch(LoginUser(email,password))
-  const handleClose = (event, reason) => {
+  const handleClose = () => {
     setOpen(false);
   };
   useEffect(() => {

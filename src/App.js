@@ -5,6 +5,8 @@ import SignUp from './components/SignUp';
 import Home from "./components/Home";
 import ProtectedRoute from "./components/protected.route";
 import store from './redux/store';
+import axios from 'axios';
+axios.defaults.baseURL = process.env.REACT_APP_DBURL;
 
 function App() {
   return (

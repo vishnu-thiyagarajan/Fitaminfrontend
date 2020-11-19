@@ -14,6 +14,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from "react-router-dom";
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import axios from 'axios';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -40,24 +45,32 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUp() {
+  const [allroles,setAllRoles] = useState([]);
   const classes = useStyles();
   const user = useSelector(state => state.user.user)
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState('');
   // const loading = useSelector(state => state.user.loading)
   const isAuthenticated = useSelector(state => state.user.isAuthenticated)
   const error = useSelector(state => state.user.error)
   const [open, setOpen] = useState(false);
-  // if (error) setOpen(true);
   const dispatch = useDispatch()
-  const register = (name, email,password) => dispatch(RegisterUser(name,email,password))
+  const register = (name,email,password,role) => dispatch(RegisterUser(name,email,password,role))
   const handleClose = (event, reason) => {
     setOpen(false);
   };
   useEffect(() => {
     setOpen(Boolean(error))
   },[error, setOpen]);
+  useEffect(() =>{
+    axios.get('/allroles').then(res=>{
+      setAllRoles(res.data)
+    }).catch(error => {
+      alert('error: '+ error)
+    })
+  },[])
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -114,6 +127,22 @@ export default function SignUp() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </Grid>
+            <Grid item xs={12}>
+            <FormControl variant="outlined" fullWidth>
+              <InputLabel id="role">Role</InputLabel>
+              <Select
+                labelId="role"
+                id="roleselect"
+                value={role}
+                onChange={(e)=>setRole(e.target.value)}
+                label="Role"
+              >
+                {
+                  allroles.map((role,index)=><MenuItem key={index} value={role}>{role.name}</MenuItem>)
+                }
+              </Select>
+            </FormControl>
+            </Grid>
           </Grid>
           <Button
             type="button"
@@ -121,7 +150,7 @@ export default function SignUp() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={()=>register(name,email,password)}
+            onClick={()=>register(name,email,password,role)}
           >
             Sign Up
           </Button>

@@ -1,23 +1,19 @@
 import React from "react";
 import { LogoutUser } from '../redux';
-import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import Loader from './Loader';
-import roles from '../config/roles';
 
-function Home (){
+function Admin (){
   const dispatch = useDispatch()
-  let history = useHistory()
   const user = useSelector(state => state.user.user)
   return (
     <div>
       <h1>Hi {user.name}</h1>
       <br/>
       <button onClick={()=>dispatch(LogoutUser())}>logout</button>
-      <button onClick={()=>{history.push('/admin')}}>goto admin</button>
-      {Loader(()=><div><h1>only for deoperators</h1></div>)(roles.deoperators)}
+      <br />
+      <h1>this page is only for admins</h1>
     </div>
   );
 };
 
-export default Home
+export default Admin

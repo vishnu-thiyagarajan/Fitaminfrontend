@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from 'react-redux';
 
-const checkPermission = (userRole, allowedRoles) => {
+export function checkPermission (userRole, allowedRoles){
+    console.log(userRole, allowedRoles)
     return allowedRoles.includes(userRole)
 }
 

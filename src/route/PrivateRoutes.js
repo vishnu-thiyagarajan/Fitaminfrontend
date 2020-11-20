@@ -1,6 +1,7 @@
 import Home from "../components/Home";
 import Admin from "../components/Admin";
 import roles from '../config/roles';
+// import CreateUser from '../components/CreateUser';
 
 const PrivateRoutes = [
     {
@@ -15,6 +16,12 @@ const PrivateRoutes = [
         exact: true,
         requiredRoles: roles.admins,
     },
+    // {
+    //   path: '/createuser',
+    //   component: CreateUser,
+    //   exact: true,
+    //   requiredRoles: roles.all,
+    // },
 ]
 
 export default PrivateRoutes

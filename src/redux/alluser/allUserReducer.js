@@ -13,7 +13,7 @@ import {
     CREATE_USER_REQUEST,
     CREATE_USER_FAILURE,
   } from './allUserActionsTypes';
-const initialState = { loading: false, error: '', users: [], updated: false, updateloading: false }
+const initialState = { loading: false, error: '', users: [], updated: false, updateloading: false, added: false }
 
 const allUserReducer = (state=initialState, action)=>{
     switch(action.type){
@@ -60,6 +60,7 @@ const allUserReducer = (state=initialState, action)=>{
         case RESET_UPDATE_USER:
             return {
                 ...state,
+                added: false,
                 updated: false,
                 updateloading: false
             }
@@ -79,15 +80,18 @@ const allUserReducer = (state=initialState, action)=>{
         case CREATE_USER_SUCCESS:
             return {
                 ...state,
-                users : state.users.append(action.payload)
+                users : [...state.users,action.payload],
+                added: true,
             }
         case CREATE_USER_REQUEST:
             return {
                 ...state,
+                added: false,
             }
         case CREATE_USER_FAILURE:
             return {
                 ...state,
+                added: false,
             }
         default: return state
     }

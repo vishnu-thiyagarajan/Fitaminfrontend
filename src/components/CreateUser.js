@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import Avatar from '@material-ui/core/Avatar';
+// import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
+// import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
+// import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+// import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { RegisterUser } from '../redux';
+import { resetUpdateUser, createUserAllUsers } from '../redux';
 import { useSelector, useDispatch } from 'react-redux';
-import { Redirect } from "react-router-dom";
+// import { Redirect } from "react-router-dom";
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -43,21 +43,25 @@ const useStyles = makeStyles((theme) => ({
 
 function Home (){
   let history = useHistory()
+  const added = useSelector(state => state.allusers.added)
   const [allroles,setAllRoles] = useState([]);
   const classes = useStyles();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
   const dispatch = useDispatch()
-  const register = (name,email,password,role) => dispatch(RegisterUser(name,email,password,role))
-  const handleClose = (event, reason) => {
-    setOpen(false);
-  };
+  const register = (obj) => dispatch(createUserAllUsers(obj))
+  // const handleClose = (event, reason) => {
+  //   setOpen(false);
+  // };
   useEffect(() => {
-    setOpen(Boolean(error))
-  },[error, setOpen]);
+    if (added){
+      dispatch(resetUpdateUser())
+      history.push('/')
+    }
+  },[added]);
   useEffect(() =>{
     axios.get('/allroles').then(res=>{
       setAllRoles(res.data)
@@ -131,7 +135,7 @@ function Home (){
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={()=>register(name,email,password,role)}
+            onClick={()=>register({name,email,password,role})}
           >
             Create User
           </Button>

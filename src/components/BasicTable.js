@@ -10,7 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import { useSelector, useDispatch } from 'react-redux';
-import { createUserAllUsers, resetUpdateUser, updateUserAllUsers, deleteUserAllUsers, getAllUsers } from '../redux';
+import { resetUpdateUser, updateUserAllUsers, deleteUserAllUsers, getAllUsers } from '../redux';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -38,6 +38,7 @@ export default function BasicTable() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const allusers = useSelector(state => state.allusers.users)
+  console.log(allusers)
   const updated = useSelector(state => state.allusers.updated)
   useEffect(() =>{
     dispatch(getAllUsers())
@@ -123,7 +124,7 @@ export default function BasicTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {allusers.map((row) => (
+          {allusers && allusers.map((row) => (
             <TableRow key={row.name}>
               <TableCell component="th" scope="row">
                 {row.name}

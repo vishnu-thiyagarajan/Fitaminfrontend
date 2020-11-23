@@ -1,10 +1,23 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import React, { useEffect } from 'react';
 import SignIn from '../components/SignIn';
 import SignUp from '../components/SignUp';
 import ProtectedRoute from './protected.route';
 import PrivateRoutes from './PrivateRoutes';
+import { loginUserSuccess } from '../redux';
+import { useDispatch } from 'react-redux';
+import axios from 'axios';
 
 function IndexRouting() {
+  let dispatch = useDispatch();
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      const foundUser = JSON.parse(loggedInUser);
+      dispatch(loginUserSuccess(foundUser));
+      axios.defaults.headers.common['Authorization'] = 'Bearer '+ foundUser.token;
+    }
+  }, [dispatch]);
   return (
     <>
       <BrowserRouter>

@@ -28,6 +28,7 @@ export default function ButtonAppBar() {
   let history = useHistory();
   const dispatch = useDispatch()
   const user = useSelector(state => state.user.user)
+  console.log(user)
   const newUser = () => {
     history.push('/createuser');
   }

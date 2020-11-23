@@ -22,6 +22,8 @@ export const LoginUser = (email,password) => {
       .then(response => {
         const user = response.data
         dispatch(loginUserSuccess(user))
+        axios.defaults.headers.common['Authorization'] = 'Bearer '+ user.token;
+        localStorage.setItem('user', JSON.stringify(user))
       })
       .catch(error => {
         if (error.response) {
@@ -93,6 +95,8 @@ export const registerUserFailure = error => {
 }
 
 export const logout = () => {
+    localStorage.clear();
+    axios.defaults.headers.common['Authorization'] = ''
     return {
         type : LOGOUT_USER,
         payload : null

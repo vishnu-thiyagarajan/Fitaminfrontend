@@ -52,7 +52,7 @@ export default function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
-  // const loading = useSelector(state => state.user.loading)
+  const loading = useSelector(state => state.user.loading)
   const isAuthenticated = useSelector(state => state.user.isAuthenticated)
   const error = useSelector(state => state.user.error)
   const [open, setOpen] = useState(false);
@@ -145,6 +145,7 @@ export default function SignUp() {
             </Grid>
           </Grid>
           <Button
+            disabled={loading}
             type="button"
             fullWidth
             variant="contained"

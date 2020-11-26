@@ -6,6 +6,12 @@ import {
   REGISTER_USER_REQUEST,
   REGISTER_USER_SUCCESS,
   REGISTER_USER_FAILURE,
+  RESET_PASSWORD_REQUEST,
+  RESET_PASSWORD_FAILURE,
+  RESET_PASSWORD_SUCCESS,
+  FORGOT_PASSWORD_REQUEST,
+  FORGOT_PASSWORD_FAILURE,
+  FORGOT_PASSWORD_SUCCESS,
   LOGOUT_USER,
 } from './userActionTypes';
 export const LogoutUser = () => {
@@ -14,16 +20,16 @@ export const LogoutUser = () => {
     }
 }
 
-export const LoginUser = (email,password) => {
+export const LoginUser = (email,password,checked) => {
   return (dispatch) => {
     dispatch(loginUserRequest())
     axios
       .post('/login', {email, password})
       .then(response => {
         const user = response.data
-        dispatch(loginUserSuccess(user))
+        if (checked) localStorage.setItem('user', JSON.stringify(user))
         axios.defaults.headers.common['Authorization'] = 'Bearer '+ user.token;
-        localStorage.setItem('user', JSON.stringify(user))
+        dispatch(loginUserSuccess(user))
       })
       .catch(error => {
         if (error.response) {
@@ -42,6 +48,7 @@ export const RegisterUser = (name,email,password,role) => {
       .post('/register', {name, email, password, role})
       .then(response => {
         const user = response.data
+        axios.defaults.headers.common['Authorization'] = 'Bearer '+ user.token;
         dispatch(registerUserSuccess(user))
       })
       .catch(error => {
@@ -51,6 +58,74 @@ export const RegisterUser = (name,email,password,role) => {
           dispatch(registerUserFailure(error.message))
         }
       })
+  }
+}
+
+export const ForgotPassword = (obj) => {
+  return (dispatch) => {
+    dispatch(forgotPasswordRequest())
+    axios
+      .put('/forgotpassword', obj)
+      .then(response => {
+        dispatch(forgotPasswordSuccess(response.data))
+      })
+      .catch(error => {
+          dispatch(forgotPasswordFailure(error.message))
+      })
+  }
+}
+
+export const ResetPassword = (obj) => {
+  return (dispatch) => {
+    dispatch(resetPasswordRequest())
+    axios
+      .put('/resetpassword', obj)
+      .then(response => {
+        dispatch(resetPasswordSuccess(response.data))
+      })
+      .catch(error => {
+          dispatch(resetPasswordFailure(error.message))
+      })
+  }
+}
+
+export const forgotPasswordRequest = () => {
+  return {
+    type: FORGOT_PASSWORD_REQUEST
+  }
+}
+
+export const forgotPasswordSuccess = obj => {
+  return {
+    type: FORGOT_PASSWORD_SUCCESS,
+    payload: obj
+  }
+}
+
+export const forgotPasswordFailure = error => {
+  return {
+    type: FORGOT_PASSWORD_FAILURE,
+    payload: error
+  }
+}
+
+export const resetPasswordRequest = () => {
+  return {
+    type: RESET_PASSWORD_REQUEST
+  }
+}
+
+export const resetPasswordSuccess = obj => {
+  return {
+    type: RESET_PASSWORD_SUCCESS,
+    payload: obj
+  }
+}
+
+export const resetPasswordFailure = error => {
+  return {
+    type: RESET_PASSWORD_FAILURE,
+    payload: error
   }
 }
 

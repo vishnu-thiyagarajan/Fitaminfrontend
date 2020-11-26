@@ -2,11 +2,13 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import React, { useEffect } from 'react';
 import SignIn from '../components/SignIn';
 import SignUp from '../components/SignUp';
+import ForgotPassword from '../components/ForgotPassword';
 import ProtectedRoute from './protected.route';
 import PrivateRoutes from './PrivateRoutes';
 import { loginUserSuccess } from '../redux';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
+import ForgotPswd from "../components/ForgotPassword";
 
 function IndexRouting() {
   let dispatch = useDispatch();
@@ -24,6 +26,7 @@ function IndexRouting() {
         <Switch>
           <Route exact path="/signin" component={SignIn} />
           <Route exact path="/signup" component={SignUp} />
+          <Route exact path="/forgotpassword" component={ForgotPassword} />
           { PrivateRoutes.map((route, index)=>
             <ProtectedRoute key={index} exact={route.exact} path={route.path} component={route.component} requiredRoles={route.requiredRoles} /> 
           )}

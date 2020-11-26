@@ -38,7 +38,6 @@ export default function BasicTable() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const allusers = useSelector(state => state.allusers.users)
-  console.log(allusers)
   const updated = useSelector(state => state.allusers.updated)
   useEffect(() =>{
     dispatch(getAllUsers())

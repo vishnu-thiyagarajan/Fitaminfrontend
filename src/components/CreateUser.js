@@ -12,8 +12,8 @@ import Container from '@material-ui/core/Container';
 import { resetUpdateUser, createUserAllUsers } from '../redux';
 import { useSelector, useDispatch } from 'react-redux';
 // import { Redirect } from "react-router-dom";
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
+// import Snackbar from '@material-ui/core/Snackbar';
+// import MuiAlert from '@material-ui/lab/Alert';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-function Home (){
+function CreateUser (){
   let history = useHistory()
   const added = useSelector(state => state.allusers.added)
   const [allroles,setAllRoles] = useState([]);
@@ -61,7 +61,7 @@ function Home (){
       dispatch(resetUpdateUser())
       history.push('/')
     }
-  },[added]);
+  },[added,dispatch,history]);
   useEffect(() =>{
     axios.get('/allroles').then(res=>{
       setAllRoles(res.data)
@@ -144,4 +144,4 @@ function Home (){
   );
 };
 
-export default Home
+export default CreateUser

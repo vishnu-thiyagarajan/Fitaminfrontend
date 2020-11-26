@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { LogoutUser } from '../redux';
 import { useSelector, useDispatch } from 'react-redux';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import { useHistory } from 'react-router-dom';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,10 +30,22 @@ export default function ButtonAppBar() {
   let history = useHistory();
   const dispatch = useDispatch()
   const user = useSelector(state => state.user.user)
-  console.log(user)
   const newUser = () => {
     history.push('/createuser');
   }
+  const handleReset = () => {
+    history.push('/resetPassword');
+  }
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -45,7 +59,22 @@ export default function ButtonAppBar() {
           <Typography variant="h6" className={classes.title}>
             Hi {user.name}
           </Typography>
-          <Button color="inherit" onClick={()=>dispatch(LogoutUser())}>Logout</Button>
+          {/* <Button color="inherit">Logout</Button> */}
+          <IconButton edge="end" onClick={handleClick} color="inherit" aria-label="menu">
+            <MoreVertIcon />
+          </IconButton>
+          <Menu
+            id="simple-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            <MenuItem onClick={handleClose}>Profile</MenuItem>
+            <MenuItem onClick={handleClose}>My account</MenuItem>
+            <MenuItem onClick={handleReset}>Reset password</MenuItem>
+            <MenuItem onClick={()=>dispatch(LogoutUser())}>Logout</MenuItem>
+          </Menu>
         </Toolbar>
       </AppBar>
     </div>

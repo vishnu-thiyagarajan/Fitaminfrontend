@@ -47,12 +47,16 @@ function SignIn() {
   
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  // const loading = useSelector(state => state.user.loading)
+  const loading = useSelector(state => state.user.loading)
   const isAuthenticated = useSelector(state => state.user.isAuthenticated)
   const error = useSelector(state => state.user.error)
   const [open, setOpen] = useState(false);
+  const [checked, setChecked] = useState(false);
   const dispatch = useDispatch()
-  const login = (email,password) => dispatch(LoginUser(email,password))
+  const login = (email,password,checked) => dispatch(LoginUser(email,password,checked))
+  const handleRemember = () => {
+    setChecked(!checked);
+  };
   const handleClose = () => {
     setOpen(false);
   };
@@ -101,22 +105,23 @@ function SignIn() {
             onChange={(e) => setPassword(e.target.value)}
           />
           <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
+            control={<Checkbox value="remember" color="primary" checked={checked} onChange={handleRemember} />}
             label="Remember me"
           />
           <Button
+            disabled={loading}
             type="button"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={()=>login(email,password)}
+            onClick={()=>login(email,password,checked)}
           >
             Sign In
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
+              <Link href="/forgotpassword" variant="body2">
                 Forgot password?
               </Link>
             </Grid>

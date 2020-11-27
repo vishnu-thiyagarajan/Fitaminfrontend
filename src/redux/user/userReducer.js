@@ -11,6 +11,9 @@ import {
     FORGOT_PASSWORD_REQUEST,
     FORGOT_PASSWORD_FAILURE,
     FORGOT_PASSWORD_SUCCESS,
+    ACCOUNT_ACTIVATION_FAILURE,
+    ACCOUNT_ACTIVATION_SUCCESS,
+    ACCOUNT_ACTIVATION_REQUEST,
     LOGOUT_USER,
   } from './userActionTypes';
 const initialState = { 
@@ -51,8 +54,7 @@ const userReducer = (state=initialState, action)=>{
             return {
                 ...state,
                 loading: false,
-                isAuthenticated: true,
-                user: action.payload
+                message: action.payload.message,
             }
         case REGISTER_USER_FAILURE:
             return {
@@ -97,6 +99,24 @@ const userReducer = (state=initialState, action)=>{
                 message: action.payload.message
             }
         case FORGOT_PASSWORD_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            }
+        case ACCOUNT_ACTIVATION_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            }
+        case ACCOUNT_ACTIVATION_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                isAuthenticated: true,
+                user: action.payload
+            }
+        case ACCOUNT_ACTIVATION_FAILURE:
             return {
                 ...state,
                 loading: false,

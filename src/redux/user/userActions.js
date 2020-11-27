@@ -12,6 +12,9 @@ import {
   FORGOT_PASSWORD_REQUEST,
   FORGOT_PASSWORD_FAILURE,
   FORGOT_PASSWORD_SUCCESS,
+  ACCOUNT_ACTIVATION_FAILURE,
+  ACCOUNT_ACTIVATION_SUCCESS,
+  ACCOUNT_ACTIVATION_REQUEST,
   LOGOUT_USER,
 } from './userActionTypes';
 export const LogoutUser = () => {
@@ -47,9 +50,7 @@ export const RegisterUser = (name,email,password,role) => {
     axios
       .post('/register', {name, email, password, role})
       .then(response => {
-        const user = response.data
-        axios.defaults.headers.common['Authorization'] = 'Bearer '+ user.token;
-        dispatch(registerUserSuccess(user))
+        dispatch(registerUserSuccess(response.data))
       })
       .catch(error => {
         if (error.response) {
@@ -57,6 +58,23 @@ export const RegisterUser = (name,email,password,role) => {
         } else {
           dispatch(registerUserFailure(error.message))
         }
+      })
+  }
+}
+
+export const AccountActivation = (obj) => {
+  return (dispatch) => {
+    dispatch(accountActivationRequest())
+    axios
+      .put('/activate', obj)
+      .then(response => {
+        const user = response.data
+        localStorage.setItem('user', JSON.stringify(user))
+        axios.defaults.headers.common['Authorization'] = 'Bearer '+ user.token;
+        dispatch(accountActivationSuccess(user))
+      })
+      .catch(error => {
+          dispatch(accountActivationFailure(error.message))
       })
   }
 }
@@ -105,6 +123,26 @@ export const forgotPasswordSuccess = obj => {
 export const forgotPasswordFailure = error => {
   return {
     type: FORGOT_PASSWORD_FAILURE,
+    payload: error
+  }
+}
+
+export const accountActivationRequest = () => {
+  return {
+    type: ACCOUNT_ACTIVATION_REQUEST
+  }
+}
+
+export const accountActivationSuccess = user => {
+  return {
+    type: ACCOUNT_ACTIVATION_SUCCESS,
+    payload: user
+  }
+}
+
+export const accountActivationFailure = error => {
+  return {
+    type: ACCOUNT_ACTIVATION_FAILURE,
     payload: error
   }
 }

@@ -92,6 +92,7 @@ const allUserReducer = (state=initialState, action)=>{
             return {
                 ...state,
                 added: false,
+                error: action.payload
             }
         default: return state
     }

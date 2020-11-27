@@ -47,23 +47,26 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp() {
   const [allroles,setAllRoles] = useState([]);
   const classes = useStyles();
-  const user = useSelector(state => state.user.user)
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
   const loading = useSelector(state => state.user.loading)
   const isAuthenticated = useSelector(state => state.user.isAuthenticated)
+  const message = useSelector(state => state.user.message)
   const error = useSelector(state => state.user.error)
   const [open, setOpen] = useState(false);
+  const [msgopen, setMsgOpen] = useState(false);
   const dispatch = useDispatch()
   const register = (name,email,password,role) => dispatch(RegisterUser(name,email,password,role))
   const handleClose = (event, reason) => {
     setOpen(false);
+    setMsgOpen(false);
   };
   useEffect(() => {
     setOpen(Boolean(error))
-  },[error, setOpen]);
+    setMsgOpen(Boolean(message))
+  },[error, message, setOpen, setMsgOpen]);
   useEffect(() =>{
     axios.get('/allroles').then(res=>{
       setAllRoles(res.data)
@@ -74,12 +77,17 @@ export default function SignUp() {
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      {!user && <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error">
           {error}
         </Alert>
-      </Snackbar>}
-      {user && isAuthenticated && <Redirect to='/'/> }
+      </Snackbar>
+      <Snackbar open={msgopen} autoHideDuration={3000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success">
+          {message}
+        </Alert>
+      </Snackbar>
+      {isAuthenticated && <Redirect to='/'/> }
       {!isAuthenticated && <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />

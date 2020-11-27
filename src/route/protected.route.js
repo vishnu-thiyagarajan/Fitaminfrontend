@@ -14,11 +14,11 @@ function ProtectedRoute ({
     <Route
       {...rest}
       render={props => {
-        if (!user.isAuthenticated){
-          return <Redirect to='/signin' />
-        }
         if (user.isAuthenticated && checkPermission(user.user.role.name, requiredRoles)) {
           return <Component {...props} />;
+        }
+        if (!user.isAuthenticated){
+          return <Redirect to='/signin' />
         }
         return <Redirect to='/404' />
       }}

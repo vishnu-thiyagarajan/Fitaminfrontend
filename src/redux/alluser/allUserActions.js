@@ -64,7 +64,7 @@ export const createUserAllUsers = (obj) => {
   return (dispatch) => {
     dispatch(createUserRequest())
     axios
-      .post('/register', obj)
+      .post('/createuser', obj)
       .then(response => {
         const user = response.data
         dispatch(createUserSuccess(user))

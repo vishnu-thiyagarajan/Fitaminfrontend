@@ -11,7 +11,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { LoginUser } from '../redux';
+import { resetState, LoginUser } from '../redux';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from "react-router-dom";
 import Snackbar from '@material-ui/core/Snackbar';
@@ -59,6 +59,7 @@ function SignIn() {
   };
   const handleClose = () => {
     setOpen(false);
+    dispatch(resetState())
   };
   useEffect(() => {
     setOpen(Boolean(error))
@@ -66,11 +67,11 @@ function SignIn() {
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      {!user && <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error">
           {error}
         </Alert>
-      </Snackbar>}
+      </Snackbar>
       {user && isAuthenticated && <Redirect to='/'/> }
       {!isAuthenticated && <div className={classes.paper}>
         <Avatar className={classes.avatar}>

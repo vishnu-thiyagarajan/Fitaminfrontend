@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
-import { ForgotPassword } from '../redux';
+import { resetState, ForgotPassword } from '../redux';
 import { useSelector, useDispatch } from 'react-redux';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
@@ -51,6 +51,7 @@ function ForgotPswd (){
   const handleClose = () => {
     setErrorOpen(false)
     setMessageOpen(false)
+    dispatch(resetState())
   }
   useEffect(() => {
     if(message) setEmail('')

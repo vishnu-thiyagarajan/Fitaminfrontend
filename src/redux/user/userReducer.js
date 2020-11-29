@@ -14,6 +14,8 @@ import {
     ACCOUNT_ACTIVATION_FAILURE,
     ACCOUNT_ACTIVATION_SUCCESS,
     ACCOUNT_ACTIVATION_REQUEST,
+    RESET_STATE,
+    RESET_ERR_MSG,
     LOGOUT_USER,
   } from './userActionTypes';
 const initialState = { 
@@ -57,6 +59,7 @@ const userReducer = (state=initialState, action)=>{
                 message: action.payload.message,
             }
         case REGISTER_USER_FAILURE:
+            console.log(action.payload)
             return {
                 loading: false,
                 user: null,
@@ -121,6 +124,14 @@ const userReducer = (state=initialState, action)=>{
                 ...state,
                 loading: false,
                 error: action.payload
+            }
+        case RESET_STATE:
+            return initialState
+        case RESET_ERR_MSG:
+            return {
+                ...state,
+                error: '',
+                message: '',
             }
         default: return state
     }

@@ -9,7 +9,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { RegisterUser } from '../redux';
+import { resetState, RegisterUser } from '../redux';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from "react-router-dom";
 import Snackbar from '@material-ui/core/Snackbar';
@@ -62,7 +62,16 @@ export default function SignUp() {
   const handleClose = (event, reason) => {
     setOpen(false);
     setMsgOpen(false);
+    dispatch(resetState())
   };
+  useEffect(()=>{
+    if (message) {
+      setName('')
+      setEmail('')
+      setPassword('')
+      setRole('')
+    }
+  },[message])
   useEffect(() => {
     setOpen(Boolean(error))
     setMsgOpen(Boolean(message))
@@ -107,6 +116,7 @@ export default function SignUp() {
                 id="fullName"
                 label="Full Name"
                 autoFocus
+                value={name}
                 onChange={(e) => setName(e.target.value)}
               />
             </Grid>
@@ -119,6 +129,7 @@ export default function SignUp() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </Grid>
@@ -132,6 +143,7 @@ export default function SignUp() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </Grid>

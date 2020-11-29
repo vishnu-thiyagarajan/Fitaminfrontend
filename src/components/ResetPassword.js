@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { ResetPassword } from '../redux';
+import { resetErrorAndMessage, ResetPassword } from '../redux';
 import { useSelector, useDispatch } from 'react-redux';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
@@ -55,6 +55,7 @@ function ResetPswd (){
   const handleClose = () => {
     setErrorOpen(false)
     setMessageOpen(false)
+    dispatch(resetErrorAndMessage())
   }
   useEffect(() => {
     if(message) {

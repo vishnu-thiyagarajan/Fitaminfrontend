@@ -15,6 +15,8 @@ import {
   ACCOUNT_ACTIVATION_FAILURE,
   ACCOUNT_ACTIVATION_SUCCESS,
   ACCOUNT_ACTIVATION_REQUEST,
+  RESET_STATE,
+  RESET_ERR_MSG,
   LOGOUT_USER,
 } from './userActionTypes';
 export const LogoutUser = () => {
@@ -74,7 +76,11 @@ export const AccountActivation = (obj) => {
         dispatch(accountActivationSuccess(user))
       })
       .catch(error => {
+        if (error.response) {
+          dispatch(accountActivationFailure(error.response.data.message))
+        } else {
           dispatch(accountActivationFailure(error.message))
+        }
       })
   }
 }
@@ -88,7 +94,11 @@ export const ForgotPassword = (obj) => {
         dispatch(forgotPasswordSuccess(response.data))
       })
       .catch(error => {
+        if (error.response) {
+          dispatch(forgotPasswordFailure(error.response.data.message))
+        } else {
           dispatch(forgotPasswordFailure(error.message))
+        }
       })
   }
 }
@@ -102,7 +112,11 @@ export const ResetPassword = (obj) => {
         dispatch(resetPasswordSuccess(response.data))
       })
       .catch(error => {
+        if (error.response) {
+          dispatch(resetPasswordFailure(error.response.data.message))
+        } else {
           dispatch(resetPasswordFailure(error.message))
+        }
       })
   }
 }
@@ -204,6 +218,18 @@ export const registerUserFailure = error => {
   return {
     type: REGISTER_USER_FAILURE,
     payload: error
+  }
+}
+
+export const resetState = () => {
+  return {
+    type: RESET_STATE,
+  }
+}
+
+export const resetErrorAndMessage = () => {
+  return {
+    type: RESET_ERR_MSG,
   }
 }
 

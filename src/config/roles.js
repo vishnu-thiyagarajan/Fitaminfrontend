@@ -1,14 +1,16 @@
 export const UserRoles = {
 	superadmin: "superadmin",
 	admin: "admin",
-	deoperator: "deoperator",
+	chef: "chef",
+	nutrition: "nutrition"
 };
 
 const roles = {
 	superadmins: [UserRoles.superadmin],
-	deoperatorsandadmins: [UserRoles.admin, UserRoles.deoperator],
+	nutritionandadmins: [UserRoles.admin, UserRoles.nutrition],
 	admins: [UserRoles.admin],
-	deoperators: [UserRoles.deoperator],
-	all: [UserRoles.superadmin, UserRoles.admin, UserRoles.deoperator]
+	nutrition: [UserRoles.nutrition],
+	chef: [UserRoles.chef],
+	all: [UserRoles.superadmin, UserRoles.admin, UserRoles.nutrition,UserRoles.chef]
 }
 export default roles;

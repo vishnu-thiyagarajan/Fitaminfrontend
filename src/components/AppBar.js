@@ -53,13 +53,12 @@ export default function ButtonAppBar() {
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuIcon />
           </IconButton>
-          <IconButton className={classes.menuButton} color="inherit" aria-label="add to new" onClick={newUser}>
+          {/* <IconButton className={classes.menuButton} color="inherit" aria-label="add to new" onClick={newUser}>
             <PersonAddIcon />
-          </IconButton>
+          </IconButton> */}
           <Typography variant="h6" className={classes.title}>
             Hi {user.name}
           </Typography>
-          {/* <Button color="inherit">Logout</Button> */}
           <IconButton edge="end" onClick={handleClick} color="inherit" aria-label="menu">
             <MoreVertIcon />
           </IconButton>

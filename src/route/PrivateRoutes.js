@@ -1,7 +1,8 @@
 import Home from "../components/Home";
 import Admin from "../components/Admin";
 import roles from '../config/roles';
-// import CreateUser from '../components/CreateUser';
+import AddCore from '../components/AddCore';
+import AddCustom from '../components/AddCustom';
 import ResetPassword from '../components/ResetPassword';
 
 const PrivateRoutes = [
@@ -17,12 +18,18 @@ const PrivateRoutes = [
         exact: true,
         requiredRoles: roles.admins,
     },
-    // {
-    //     path: '/createuser',
-    //     component: CreateUser,
-    //     exact: true,
-    //     requiredRoles: roles.all,
-    // },
+    {
+        path: '/addcore',
+        component: AddCore,
+        exact: true,
+        requiredRoles: roles.nutritionandadmins,
+    },
+    {
+        path: '/addcustom',
+        component: AddCustom,
+        exact: true,
+        requiredRoles: roles.nutritionandadmins,
+    },
     {
         path: '/resetPassword',
         component: ResetPassword,

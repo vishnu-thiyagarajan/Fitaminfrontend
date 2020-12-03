@@ -14,7 +14,10 @@ import Select from '@material-ui/core/Select';
 import { useSelector, useDispatch } from "react-redux";
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import { GetCustom } from '../redux';
+import { GetCustom, resetCore } from '../redux';
+import roles from '../config/roles';
+import { useHistory } from "react-router-dom";
+import Loader from './Loader';
 
 const allweights = [
   {name:'30-35'},
@@ -54,7 +57,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    // minHeight: '100vh',
   },
   avatar: {
     margin: theme.spacing(1),
@@ -77,6 +79,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Home() {
   const classes = useStyles();
   let dispatch = useDispatch()
+  let history = useHistory()
   const corerecipe = useSelector(state => state.dish.corerecipe)
   const coreid = useSelector(state => state.dish.coreid)
   const corenutrition = useSelector(state => state.dish.corenutrition)
@@ -85,9 +88,11 @@ export default function Home() {
   const [wantsto, setWantsto] = useState('')
   const [weight, setWeight] = useState('')
   const handleSearch = () =>{
-    console.log(coreid)
-    if (coreid) dispatch(GetCustom(coreid, wantsto, weight))
+    if (coreid && wantsto && weight) dispatch(GetCustom(coreid, wantsto, weight))
   }
+  useEffect(()=>{
+    dispatch(resetCore())
+  },[dispatch])
   return (
     <>
     <ButtonAppBar />
@@ -139,6 +144,28 @@ export default function Home() {
             >
               Search
             </Button>
+            {Loader(()=>
+            <Button
+              type="button"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={()=> history.push('/addcore')}
+            >
+              Goto add core recipe
+            </Button>)(roles.nutritionandadmins)}
+            {Loader(()=>
+            <Button
+              type="button"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={()=> history.push('/addcustom')}
+            >
+              Goto add custom recipe
+            </Button>)(roles.nutritionandadmins)}
           </form>
         </div>
       </Grid>

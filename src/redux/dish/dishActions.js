@@ -3,15 +3,18 @@ import {
     CUSTOMIZED_REQUEST,
     CUSTOMIZED_SUCCESS,
     CUSTOMIZED_FAILURE,
+    ADD_CORE_REQUEST,
+    ADD_CORE_SUCCESS,
+    ADD_CORE_FAILURE,
+    ADD_CUSTOM_REQUEST,
+    ADD_CUSTOM_SUCCESS,
+    ADD_CUSTOM_FAILURE,
     CORE_REQUEST,
     CORE_SUCCESS,
     CORE_FAILURE,
     RESET_CORE,
+    RESET_UPDATE_CORE,
     SET_CORE,
-    RESET_WEIGHT,
-    SET_WEIGHT,
-    RESET_WANTSTO,
-    SET_WANTSTO,
 } from './dishActionTypes';
 
 export const setCore = (name) => {
@@ -65,6 +68,80 @@ export const GetCore = () => {
     }
   }
 
+export const AddCoreRecipe = (obj) => {
+    return (dispatch) => {
+      dispatch(addCoreRequest())
+      axios
+        .post('/recipe', obj)
+        .then(response => {
+          console.log(response)
+          const newcore = response.data
+          dispatch(addCoreSuccess(newcore))
+        })
+        .catch(error => {
+          if (error.response) {
+            dispatch(addCoreFailure(error.response.data.message))
+          } else {
+            dispatch(addCoreFailure(error.message))
+          }
+        })
+    }
+  }
+
+export const AddCustomRecipe = (obj) => {
+    return (dispatch) => {
+      dispatch(addCustomRequest())
+      axios
+        .post('/custom', obj)
+        .then(response => {
+          console.log(response)
+          const newcustom = response.data
+          dispatch(addCustomSuccess(newcustom))
+        })
+        .catch(error => {
+          if (error.response) {
+            dispatch(addCustomFailure(error.response.data.message))
+          } else {
+            dispatch(addCustomFailure(error.message))
+          }
+        })
+    }
+  }
+  export const addCustomRequest = () => {
+    return {
+      type: ADD_CUSTOM_REQUEST,
+    }
+  }
+export const addCustomSuccess = () => {
+    return {
+      type: ADD_CUSTOM_SUCCESS,
+    }
+  }
+export const addCustomFailure = (error) => {
+    return {
+      type: ADD_CUSTOM_FAILURE,
+      payload: error 
+    }
+  }
+
+export const addCoreRequest = () => {
+    return {
+      type: ADD_CORE_REQUEST,
+    }
+  }
+export const addCoreSuccess = (core) => {
+    return {
+      type: ADD_CORE_SUCCESS,
+      payload: core
+    }
+  }
+export const addCoreFailure = (error) => {
+    return {
+      type: ADD_CORE_FAILURE,
+      payload: error 
+    }
+  }
+
 export const coreRequest = () => {
     return {
       type: CORE_REQUEST,
@@ -98,5 +175,11 @@ export const customFailure = (error) => {
     return {
       type: CUSTOMIZED_FAILURE,
       payload: error 
+    }
+  }
+
+export const resetUpdateCore = () => {
+  return {
+    type: RESET_UPDATE_CORE,
     }
   }

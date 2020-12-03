@@ -7,7 +7,7 @@ export const UserRoles = {
 
 const roles = {
 	superadmins: [UserRoles.superadmin],
-	nutritionandadmins: [UserRoles.admin, UserRoles.nutrition],
+	nutritionandadmins: [UserRoles.admin, UserRoles.nutrition,UserRoles.superadmin],
 	admins: [UserRoles.admin],
 	nutrition: [UserRoles.nutrition],
 	chef: [UserRoles.chef],

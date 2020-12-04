@@ -5,7 +5,7 @@ import { checkPermission } from '../components/Loader';
 
 function ProtectedRoute ({
   component: Component,
-  requiredRoles: requiredRoles,
+  requiredRoles,
   ...rest
 }){
   const user = useSelector(state => state.user)
